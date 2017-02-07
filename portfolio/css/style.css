@@ -32,6 +32,12 @@ hr {
 	margin-right: auto;
 }
 
+.css-validator {
+	border: 0;
+	width: 88px;
+	height: 31px;
+}
+
 #footer {
 	margin: 20px 0;
 }
