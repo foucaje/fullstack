@@ -1,5 +1,5 @@
 body {
-	font-family: 'Raleway', sans-serif;
+	font-family: "Raleway", sans-serif;
 	color: #7d97ad;
 	font-weight: 300;
 }
@@ -37,9 +37,10 @@ hr {
 }
 
 @media screen and (max-width: 480px) {
+	/* removed for review
 	#banner {
 		display: none;
-	}
+	}*/
 
 	#footer {
 		margin-left: -20px;
