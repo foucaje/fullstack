@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+{% for post in posts %}
+	<div class="row">
+		<div class="col-md-6 text-left text-upper">
+		{{post.subject}}
+		</div>
+		<div class="col-md-6 text-right">
+		{{post.created}}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12"><br>{{post.content}}<hr></div>
+	</div>
+{% endfor %}
+{% endblock %}

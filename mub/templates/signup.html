@@ -1,9 +1,61 @@
-<form method="post">
-	<h1>Signup</h1>
-	<label>Username: <input type="text" name="username" value="{{username}}"></label>{{USER_ERR}}<br>
-	<label>Password: <input type="password" name="password"></label>{{PASS_ERR}}<br>
-	<label>Verify Password: <input type="password" name="verify"></label>{{VERIFY_ERR}}<br>
-	<label>Email (optional): <input type="text" name="email" value="{{email}}"></label>{{EMAIL_ERR}}<br>
-	<br>
-	<input type="submit">
-</form>
+{% extends "base.html" %}
+{% block content %}
+			<div class="row">
+					<div class="col-md-12 content-center">
+						<form class="frm-center" method="post">
+					      <h2>Sign Up</h2>
+					      <table>
+					        <tr>
+					          <td>
+					            Username
+					          </td>
+					          <td>
+					            <input type="text" name="username" value="{{username}}">
+					          </td>
+					          <td class="error">
+					            {{USER_ERR}}
+					          </td>
+					        </tr>
+
+					        <tr>
+					          <td>
+					            Password
+					          </td>
+					          <td>
+					            <input type="password" name="password" value="">
+					          </td>
+					          <td class="error">
+					            {{PASS_ERR}}
+					          </td>
+					        </tr>
+
+					        <tr>
+					          <td>
+					            Verify Password
+					          </td>
+					          <td>
+					            <input type="password" name="verify" value="">
+					          </td>
+					          <td class="error">
+					            {{VERIFY_ERR}}
+					          </td>
+					        </tr>
+
+					        <tr>
+					          <td>
+					            Email (optional)
+					          </td>
+					          <td>
+					            <input type="text" name="email" value="{{email}}">
+					          </td>
+					          <td class="error">
+					            {{EMAIL_ERR}}
+					          </td>
+					        </tr>
+					      </table>
+
+					      <input type="submit">
+					    </form>
+					</div>
+			</div>
+{% endblock %}

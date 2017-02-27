@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>My basic blog</title>
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		  <div class="container">
+		  <a class="navbar-brand" href="/">ax:<strong>Blog</strong></a>
+		  {% if valid_user %}
+		  <p class="navbar-text navbar-right">Logged in as Mark Otto</p>
+		  <ul class="nav navbar-nav navbar-right">
+		  <li><a href="/logout">Logout</a></li>
+		  </ul>
+		  {% else %}
+		  <p class="navbar-text navbar-right">Not logged in.</p>
+		  <ul class="nav navbar-nav navbar-right">
+		  <li><a href="/signup">Signup</a></li>
+		  <li><a href="/login">Login</a></li>
+		  </ul>
+		  {% endif %}
+		   
+		</nav>
+		<div class="container">
+			{% block content %}
+			{% endblock %}
+			<footer class="row" id="footer">
+				<div class="col-xs-6 col-md-6 text-left">
+					<p>© 2017 aeonex by <a href="mailto:jerome@aeonex.com">jerome foucauld</a>.
+					<br>All Rights Reserved.</p>
+					</div>
+				<div class="col-xs-6 col-md-6 text-right">
+					<p>
+					<a href="http://jigsaw.w3.org/css-validator/check/referer">
+				    <img class="css-validator" src="http://jigsaw.w3.org/css-validator/images/vcss-blue" alt="CSS is valid!" />
+				    </a>
+					</p>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

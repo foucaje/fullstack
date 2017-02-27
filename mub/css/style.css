@@ -1,0 +1,39 @@
+body {
+	font-family: "Raleway", sans-serif;
+	color: #7d97ad;
+	font-weight: 300;
+	padding-top: 70px;
+}
+
+footer {
+	color: #ccc;
+	background-color: #222;
+}
+
+footer p {
+	margin: 20px;
+}
+
+
+footer a {
+	color: #3cb5d0;
+}
+
+.css-validator {
+	border: 0;
+	width: 88px;
+	height: 31px;
+}
+
+#footer {
+	margin: 20px 0;
+}
+
+.error {
+	color: red;
+}
+
+.frm-center {
+	width: 30%;
+	margin: 10px auto;
+}
