@@ -37,3 +37,8 @@ footer a {
 	width: 30%;
 	margin: 10px auto;
 }
+
+#post-form {
+	max-width: 100%;
+	margin: 10px auto;
+}

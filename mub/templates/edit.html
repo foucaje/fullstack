@@ -1,17 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-
+			
 					<form class="form-horizontal" method="post">
 						<fieldset>
-							<legend>New Post</legend>
+							<legend>Edit Post</legend>
 
 							<div class="form-group">
 							  <label class="col-md-10 col-md-offset-1" for="textinput">Headline:</label>  
 							  <div class="col-md-10 col-md-offset-1">
 							  	<input name="subject" type="text" placeholder="" class="form-control input-md" required="" value="{{subject}}">
-							  	{% if SUBJECT_ERR %}
-							  	<span class="help-block">{{SUBJECT_ERR}}</span>
-							  	{% endif %}
 							  </div>
 							</div>
 
@@ -24,7 +21,8 @@
 
 							<div class="form-group">
 							  <div class="col-md-10 col-md-offset-1 text-center">
-							    <button type="submit" class="btn btn-default">Post</button>
+							  	<button type="submit" class="btn btn-default">Save</button>
+							    <button type="button" name="cancel" class="btn btn-default">Cancel</button>
 							  </div>
 							</div>
 						</fieldset>

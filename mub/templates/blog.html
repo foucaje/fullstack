@@ -1,16 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 {% for post in posts %}
-	<div class="row">
-		<div class="col-md-6 text-left text-upper">
-		{{post.subject}}
-		</div>
-		<div class="col-md-6 text-right">
-		{{post.created}}
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12"><br>{{post.content}}<hr></div>
-	</div>
+			
+					<h3>{{post.subject}}</h3>
+					<p class="small">by {{post.user.username}} on {{post.created.strftime("%A, %d. %B %Y %I:%M%p")}}
+					{% if post.user.username == user.username %}
+					 - <a href="/{{post.key().id()}}?edit=1">edit</a> - <a href="/{{post.key().id()}}?delete=1">delete</a>
+					{% endif %}</p>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12"><br>{{post.content.replace('\n', '<br>')|safe}}
+					<br>
+					{% if post.created < post.updated %}
+					<p class="small"><strong>Last Update on:</strong> {{post.updated.strftime("%A, %d. %B %Y %I:%M%p")}}</p>
+					{% endif %}
+					<br>
+			
 {% endfor %}
 {% endblock %}
