@@ -1,44 +1,40 @@
 body {
 	font-family: "Raleway", sans-serif;
-	color: #7d97ad;
 	font-weight: 300;
-	padding-top: 70px;
+	padding-top: 50px;
 }
 
 footer {
 	color: #ccc;
 	background-color: #222;
+	padding-top: 25px;
+	padding-bottom: 10px;
 }
-
-footer p {
-	margin: 20px;
-}
-
 
 footer a {
 	color: #3cb5d0;
 }
 
-.css-validator {
-	border: 0;
-	width: 88px;
-	height: 31px;
-}
-
-#footer {
-	margin: 20px 0;
-}
-
 .error {
-	color: red;
+	color: #f00;
 }
 
-.frm-center {
-	width: 30%;
-	margin: 10px auto;
+.post-body {
+	padding-top: 10px;
 }
 
-#post-form {
-	max-width: 100%;
-	margin: 10px auto;
+.post-footer {
+	padding-top: 10px;
+	margin-bottom: 20px;
 }
+
+.btn-colps:after {
+    font-family: "Glyphicons Halflings";
+    content: "\e114";
+    float: right;
+    margin-left: 15px;
+ }
+
+.btn-colps.collapsed:after {
+    content: "\e080";
+ }

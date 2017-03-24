@@ -1,27 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-
+				{% if ERROR %}
+				<div class="alert alert-danger" role="alert">{{ERROR}}</div>
+				{% endif %}
 					<form class="form-horizontal" method="post">
 						<fieldset>
 							<legend>New Post</legend>
-
 							<div class="form-group">
 							  <label class="col-md-10 col-md-offset-1" for="textinput">Headline:</label>  
 							  <div class="col-md-10 col-md-offset-1">
-							  	<input name="subject" type="text" placeholder="" class="form-control input-md" required="" value="{{subject}}">
-							  	{% if SUBJECT_ERR %}
-							  	<span class="help-block">{{SUBJECT_ERR}}</span>
-							  	{% endif %}
+							  	<input name="subject" type="text" placeholder="" class="form-control input-md" required value="{{subject}}">
 							  </div>
 							</div>
-
 							<div class="form-group">
 							  <label class="col-md-10 col-md-offset-1" for="textarea">Content:</label>
 							  <div class="col-md-10 col-md-offset-1">                     
-							    <textarea class="form-control" id="textarea" name="content" required="">{{content}}</textarea>
+							    <textarea class="form-control" id="textarea" rows="10" name="content" required>{{content}}</textarea>
 							  </div>
 							</div>
-
 							<div class="form-group">
 							  <div class="col-md-10 col-md-offset-1 text-center">
 							    <button type="submit" class="btn btn-default">Post</button>

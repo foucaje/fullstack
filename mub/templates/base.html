@@ -8,51 +8,75 @@
 		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 		<link rel="stylesheet" href="/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		  <div class="container">
-		  <a class="navbar-brand" href="/">ax:<strong>Blog</strong></a>
-		  {% if user %}
-		  <p class="navbar-text navbar-right">Logged in as {{user.username}}</p>
-		  <ul class="nav navbar-nav navbar-right">
-		  <li><a href="/newpost">New Post</a></li>
-		  <li><a href="/logout">Logout</a></li>
-		  </ul>
-		  {% else %}
-		  <p class="navbar-text navbar-right">Not logged in.</p>
-		  <ul class="nav navbar-nav navbar-right">
-		  <li><a href="/signup">Signup</a></li>
-		  <li><a href="/login">Login</a></li>
-		  </ul>
-		  {% endif %}
-		   
+		  		<div class="navbar-header">
+      				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>                        
+				    </button>
+      				<a class="navbar-brand" href="/">ax:<strong>Blog</strong></a>
+    			</div>
+    			<div class="collapse navbar-collapse" id="myNavbar">
+				  	
+				  	{% if user %}
+				  	<ul class="nav navbar-nav">
+					  <li><a href="/"><span class="glyphicon glyphicon glyphicon-home"></span> Home</a></li>
+					  <li><a href="/newpost"><span class="glyphicon glyphicon glyphicon-file"></span> New Post</a></li>
+				  	</ul>
+				  	<ul class="nav navbar-nav navbar-right">
+						<li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					</ul>
+					<p class="nav navbar-text navbar-right">Logged in as {{user.username}}</p>
+					{% else %}
+					<ul class="nav navbar-nav navbar-right">
+					  <li><a href="/signup"><span class="glyphicon glyphicon glyphicon-pencil"></span> Signup</a></li>
+					  <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				  	</ul>
+				  	<p class="nav navbar-text navbar-right">Not logged in.</p>
+				  	{% endif %}
+				</div>
+		  </div>
 		</nav>
+		{% if active_page == 'home' %}
+		<div class="jumbotron">
+  			<div class="container text-center">
+    			<h1>ax:<strong>Blog</strong></h1>      
+    			<p>a project for Udacities FullStack Nanodegree</p>
+  			</div>
+		</div>
+		{% endif %}
 		<div class="container">
 			<div class="row">
-				<div class="col-md-8">
+				<br>
+				<div class="col-md-9">
 				{% block content %}
 				{% endblock %}
 				</div>
-				<div class="col-md-4">
-				 	{% for p in self.recentposts %}
-				 	<p><a href="/{{p.key().id()}}">{{p.subject}}</a></p>
-				 	{% endfor %}
+				<div class="col-md-3">
+				<p>Latest posts...</p>
+				{% if recentposts %}
+					<div class="list-group">
+					{% for post in recentposts %}
+						<a href="/{{post.key().id()}}" class="list-group-item">{{post.subject}} <span class="badge">{{post.votes.count()}}</span></a>
+					{% endfor %}
+					</div>
+				{% endif %}
+				<br><br>
 				</div>
-			</div>
-			<footer class="row" id="footer">
-				<div class="col-xs-6 col-md-6 text-left">
+		</div>
+		<footer class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 text-center">
 					<p>© 2017 aeonex by <a href="mailto:jerome@aeonex.com">jerome foucauld</a>.
 					<br>All Rights Reserved.</p>
-					</div>
-				<div class="col-xs-6 col-md-6 text-right">
-					<p>
-					<a href="http://jigsaw.w3.org/css-validator/check/referer">
-				    <img class="css-validator" src="http://jigsaw.w3.org/css-validator/images/vcss-blue" alt="CSS is valid!" />
-				    </a>
-					</p>
 				</div>
-			</footer>
-		</div>
+			</div>
+		</footer>
 	</body>
 </html>

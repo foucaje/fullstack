@@ -1,8 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-			<div class="row">
-				<div class="col-md-12">
-					<div class="alert alert-success" role="alert">Welcome, {{user.username}}!</div>
-				</div>
-			</div>
+			<div class="alert alert-success" role="alert">Welcome, {{user.username}}!</div>
+			<p>Where would you like to go? You can view all post <a href="/">here</a>, or maybe you want to <a href="/newpost">post</a> something new?</p>
 {% endblock %}

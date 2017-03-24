@@ -1,16 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
-	<div class="row">
-		<div class="col-md-12">
-			<h3>{{post.subject}}</h3>
-			<p>by {{post.user.username}} on {{post.created.strftime("%A, %d. %B %Y %I:%M%p")}}
-			{% if post.user.username == user.username %}
-			 - <a href="/edit/{{post.key().id()}}">edit</a>
-			{% endif %}</p>
-			<hr>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12"><br>{{post.content}}<br><br></div>
-	</div>
+			{% if success %}
+			<div class="alert alert-success" role="alert">{{success}}!</div>
+			{% endif %}
+			<h2>{{post.subject}}</h2>
+					<p class="small">by {{post.user.username}} on {{post.created.strftime("%A, %d. %B %Y %I:%M%p")}}
+					{% if user and post.user.key() == user.key() %}
+					<a href="/{{post.key().id()}}?edit=post" class="btn btn-default btn-xs" role="button"><span class="glyphicon glyphicon-pencil"></span> edit</a>
+					<a href="/{{post.key().id()}}?delete=post" class="btn btn-default btn-xs" role="button"><span class="glyphicon glyphicon-trash"></span> delete</a>
+					{% endif %}</p>
+					<hr>
+					<br>{{post.content.replace('\n', '<br>')|safe}}
+					<br>
+					{% if (post.updated - post.created).total_seconds() > 30 %}
+					<p class="small"><strong>Last Update on:</strong> {{post.updated.strftime("%A, %d. %B %Y %I:%M%p")}}</p>
+					{% endif %}
+					<br><br>
+					<div class="col-md-11 col-md-offset-1">
+					{% if user %}
+						{% if comment_id %}
+						<h4>Edit your Comment:</h4>
+				    	<form class="form-horizontal" method="post">
+				        <div class="form-group">
+				        <textarea class="form-control" rows="3" name="upd_com" required>{{upd_com}}</textarea>
+				        </div>
+				        <input type="hidden" name="upd_com_id" value="{{comment_id}}">
+				       	<button type="submit" class="btn btn-success">Update!</button>
+				    	</form>
+				    	{% else %}
+				    	<h4>Leave a Comment:</h4>
+				    	<form class="form-horizontal" method="post">
+				        <div class="form-group">
+				        <textarea class="form-control" rows="3" name="comment" required></textarea>
+				        </div>
+				       	<button type="submit" class="btn btn-success">Submit</button>
+				    	</form>
+				    	{% endif %}
+				    	<br>
+					 {% else %}
+				        <p>Please <a href="/login">login</a> to post a comment!</p>
+					 {% endif %}
+					    <hr>
+				    	{% for comment in post.comments %}
+						<h4>{{comment.user.username}}<small> on {{comment.created.strftime("%A, %d. %B %Y %I:%M%p")}}</small></h4>
+			          	<p class="small">{{comment.content}}</p>
+				          	{% if user and comment.user.key() == user.key() %}
+							<p>
+							<a href="/{{post.key().id()}}?edit=comment&comment_id={{comment.key().id()}}" class="btn btn-default btn-xs" role="button"><span class="glyphicon glyphicon-pencil"></span> edit</a>
+							<a href="/{{post.key().id()}}?delete=comment&comment_id={{comment.key().id()}}" class="btn btn-default btn-xs" role="button"><span class="glyphicon glyphicon-trash"></span> delete</a>
+							</p>
+							{% endif %}
+			          	<br>
+			          	{% endfor %}
+		          	</div>
+		          	<br>
 {% endblock %}
