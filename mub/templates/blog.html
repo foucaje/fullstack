@@ -17,7 +17,6 @@
 				{% if (post.updated - post.created).total_seconds() > 30 %}
 				<p class="small"><strong>Last Update on:</strong> {{post.updated.strftime("%A, %d. %B %Y %I:%M%p")}}<br></p>
 				{% endif %}
-				<br>
 			</div>
 		</div>
 		<div class="row">
@@ -25,12 +24,12 @@
 			<div class="btn-group btn-group-xs" role="group">
 				<button class="btn btn-primary btn-xs collapsed btn-colps" type="button" data-toggle="collapse" data-target="#c{{post.key()}}"">Comments <span class="badge">{{post.comments.count()}}</span>
 				</button>
-				<button class="btn btn-primary btn-xs">Likes <span class="badge">{{post.votes.count()}}</span></button>
+				<button class="btn btn-primary btn-xs">Likes <span class="badge">{{post.likes.count()}}</span></button>
 				</div>
 				<a href="/{{post.key().id()}}" class="btn btn-primary btn-xs" role="button">Post a comment</a>
 				{% if user and post.user.key() != user.key() %}
-					{% if not post.votes.filter('user =', user.key()).get() %}
-				 <a href="/{{post.key().id()}}?vote=true" class="btn btn-primary btn-xs" role="button">Like</a>
+					{% if not post.likes.filter('user =', user.key()).get() %}
+				 <a href="/{{post.key().id()}}?like=true" class="btn btn-primary btn-xs" role="button">Like</a>
 					{% endif %} 	
 				{% endif %}
 			</div>

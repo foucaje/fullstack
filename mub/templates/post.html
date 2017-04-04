@@ -3,6 +3,9 @@
 			{% if success %}
 			<div class="alert alert-success" role="alert">{{success}}!</div>
 			{% endif %}
+			{% if error %}
+			<div class="alert alert-danger" role="alert">{{error}}!</div>
+			{% endif %}
 			<h2>{{post.subject}}</h2>
 					<p class="small">by {{post.user.username}} on {{post.created.strftime("%A, %d. %B %Y %I:%M%p")}}
 					{% if user and post.user.key() == user.key() %}

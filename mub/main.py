@@ -44,13 +44,13 @@ class User(db.Model):
 class Post(db.Model):
     """ The Post DB Model Class
     References:
-        User Model 1:1
+        User
     """
     subject = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     updated = db.DateTimeProperty(auto_now=True)
-    user = db.ReferenceProperty(User)
+    user = db.ReferenceProperty(User, collection_name='posts')
 
 
 class Comment(db.Model):
@@ -58,8 +58,8 @@ class Comment(db.Model):
     Comments to a Post
 
     References:
-        User Model 1:1
-        Post Model 1:n
+        User
+        Post
     """
     created = db.DateTimeProperty(auto_now_add=True)
     content = db.TextProperty(required=True)
@@ -67,15 +67,17 @@ class Comment(db.Model):
     post = db.ReferenceProperty(Post, collection_name='comments')
 
 
-class Votes(db.Model):
-    """ The Votes DB Model Class
-    Votes (Likes) to a Post
+class Like(db.Model):
+    """ The Like DB Model Class
+    Likes to a Post
+    The Model is called Vote instead of like to avoid
+    keyname conflict with SQL databases
 
     References:
-        User Model 1:1
-        Post Model 1:n
+        User Model
+        Post Model
     """
-    post = db.ReferenceProperty(Post, collection_name='votes')
+    post = db.ReferenceProperty(Post, collection_name='likes')
     user = db.ReferenceProperty(User)
 
 
@@ -163,70 +165,79 @@ class NewPost(Handler):
 class PermaLink(Handler):
     """ The Permalink Handler Class
     Handles and renders the a single post according the provided post_id
+    In addition, it handels likes and comments related to it
     """
     def get(self, post_id):
         delete = self.request.get('delete')
         edit = self.request.get('edit')
-        vote = self.request.get('vote')
+        like = self.request.get('like')
         comment_id = self.request.get('comment_id')
 
         p = Post.get_by_id(int(post_id))
+        c = None
+
+        if comment_id:
+            c = Comment.get_by_id(int(comment_id))
 
         if self.user:
 
-            # Checking if we are allowed to edit this post or comment
-            if edit:
+            # Checking we can delete this post
+            if delete and delete == 'post':
                 if p and p.user.key() == self.user.key():
-
-                    if edit == 'post':
-                        self.render('edit.html', subject=p.subject,
-                                    content=p.content, post_id=post_id)
-
-                    elif edit == 'comment' and comment_id:
-                        upd_com = Comment.get_by_id(int(comment_id))
-                        self.render('post.html', post=p, comment_id=comment_id,
-                                    upd_com=upd_com.content)
+                    p.delete()
+                    self.redirect('/')
                 else:
                     self.render('post.html', post=p,
-                                error="You can only edit your own post and "
-                                      "comments!")
+                                error="You can only delete your own post")
 
-            # Checking if we are allowed to delete this post
-            elif delete:
-                if p and p.user.key() == self.user.key():
-
-                    if delete == 'post':
-                        p.delete()
-                        self.redirect('/')
-
-                    elif delete == 'comment' and comment_id:
-                        Comment.get_by_id(int(comment_id)).delete()
-                        self.render('post.html', post=p,
-                                    success='Successfully deleted!')
-
+            # Checking we can delete this comment
+            elif delete and delete == 'comment' and comment_id:
+                if c and c.user.key() == self.user.key():
+                    c.delete()
+                    self.render('post.html', post=p,
+                                success='Successfully deleted!')
                 else:
                     self.render('post.html', post=p,
-                                error="You can only delete your own post!")
+                                error="You can only delete your own comment")
 
-            # Checking if we can vote for (like) this post
-            elif vote:
+            # Checking we can edit this post
+            elif edit and edit == 'post':
+                if p and p.user.key() == self.user.key():
+                    self.render('edit.html', subject=p.subject,
+                                content=p.content, post_id=post_id)
+                else:
+                    self.render('post.html', post=p,
+                                error="You can only edit your own post")
+
+            # Checking we can edit this comment
+            elif edit and edit == 'comment' and comment_id:
+                if c and c.user.key() == self.user.key():
+                    upd_com = c.content
+                    self.render('post.html', post=p, comment_id=comment_id,
+                                upd_com=upd_com)
+                else:
+                    self.render('post.html', post=p,
+                                error="You can only edit your own comment")
+
+            # Checking if we can like this post
+            elif like:
                 if p and p.user.key() != self.user.key():
-                    result = Votes.all().filter(
+                    result = Like.all().filter(
                         'post =', p.key()).filter(
                         'user =', self.user.key()
                         ).get()
 
                     if result:
                         self.redirect('/')
-                        return
                     else:
-                        Votes(post=p, user=self.user).put()
+                        Like(post=p, user=self.user).put()
                         self.redirect('/')
-                        return
                 else:
                     self.redirect('/')
-            else:
-                self.render('post.html', post=p)
+
+            # None of the above handled, so just show the direct link
+            self.render('post.html', post=p)
+
         else:
             self.render('post.html', post=p)
 
@@ -245,11 +256,11 @@ class PermaLink(Handler):
                 p.content = content
                 p.subject = subject
                 p.put()
-
-            self.render('post.html', post=p, success='Successfully updated!')
+                self.render('post.html', post=p,
+                            success='Successfully updated!')
 
         # Adding a new comment
-        elif comment and self.user:
+        elif p and comment and self.user:
             new = Comment(content=comment, user=self.user, post=p)
             new.put()
             self.render('post.html', post=p)
@@ -262,7 +273,7 @@ class PermaLink(Handler):
             self.render('post.html', post=p, success='Successfully updated!')
 
         else:
-            error = 'You need to supply both!'
+            error = 'I am sorry, there was an error with your request'
             self.render('edit.html', error=error,
                         content=content,
                         subject=subject)
@@ -343,9 +354,8 @@ class Login(Handler):
 
         if username and password:
             pwdHash = hash(password)
-            user = db.GqlQuery("SELECT * FROM User WHERE username = '%s' "
-                               "and password = '%s'"
-                               % (str(username), pwdHash)).get()
+            user = User.all().filter('username = ', str(username)).filter(
+                                     'password =', pwdHash).get()
 
             if user:
                 uid = user.key().id()

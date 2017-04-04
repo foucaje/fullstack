@@ -63,7 +63,7 @@
 				{% if recentposts %}
 					<div class="list-group">
 					{% for post in recentposts %}
-						<a href="/{{post.key().id()}}" class="list-group-item">{{post.subject}} <span class="badge">{{post.votes.count()}}</span></a>
+						<a href="/{{post.key().id()}}" class="list-group-item">{{post.subject}} <span class="badge">{{post.likes.count()}}</span></a>
 					{% endfor %}
 					</div>
 				{% endif %}
