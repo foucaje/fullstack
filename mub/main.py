@@ -32,6 +32,19 @@ def hash(value):
     return hmac.new(salt, str(value)).hexdigest()
 
 
+def login_required(func):
+    """
+    A decorator to confirm a user is logged in or redirect as needed.
+    """
+    def login(self, *args, **kwargs):
+        # Redirect to login if user not logged in, else execute func.
+        if not self.user:
+            self.redirect("/login")
+        else:
+            func(self, *args, **kwargs)
+    return login
+
+
 class User(db.Model):
     """ The User DB Model Class
     """
@@ -148,18 +161,21 @@ class NewPost(Handler):
         content = self.request.get('content')
 
         # Checking if content and subject (required) are available
-        if subject and content:
-            p = Post(content=content, subject=subject,
-                     user=self.user).put()
-            pkey = p.id()
-            self.redirect('/%d' % pkey)
+        if self.user:
+            if subject and content:
+                p = Post(content=content, subject=subject,
+                         user=self.user).put()
+                pkey = p.id()
+                self.redirect('/%d' % pkey)
 
+            else:
+                error = 'You need to supply both!'
+                self.render('newpost.html',
+                            error=error,
+                            content=content,
+                            subject=subject)
         else:
-            error = 'You need to supply both!'
-            self.render('newpost.html',
-                        error=error,
-                        content=content,
-                        subject=subject)
+            self.redirect('/login')
 
 
 class PermaLink(Handler):
@@ -251,7 +267,7 @@ class PermaLink(Handler):
         p = Post.get_by_id(int(post_id))
 
         # Updating the Post after edit, if the logged in user is also author
-        if subject and content and p:
+        if subject and content and p and self.user:
             if p.user.key() == self.user.key():
                 p.content = content
                 p.subject = subject
@@ -268,9 +284,11 @@ class PermaLink(Handler):
         # Editing a comment
         elif upd_com and upd_com_id and self.user:
             update = Comment.get_by_id(int(upd_com_id))
-            update.content = upd_com
-            update.put()
-            self.render('post.html', post=p, success='Successfully updated!')
+            if update.author.key() == self.user.key():
+                update.content = upd_com
+                update.put()
+                self.render('post.html', post=p,
+                            success='Successfully updated!')
 
         else:
             error = 'I am sorry, there was an error with your request'
