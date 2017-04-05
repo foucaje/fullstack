@@ -30,7 +30,7 @@ gcloud components install app-engine-python-extras
 
 ### Configuration
 There is nothig much to configure in this version.
-However you should have a loot at the blog.py file and edit the salt value for the hashing function.
+However you should have a loot at the main.py file and edit the salt value for the hashing function.
 
 ### GOOGLE APP ENGINE
 To deploy on the GAE you need an account at the [GOOGLE APP ENGINE](https://cloud.google.com/appengine/)
