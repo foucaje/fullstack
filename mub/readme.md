@@ -30,21 +30,21 @@ gcloud components install app-engine-python-extras
 
 ### Configuration
 There is nothig much to configure in this version.
-However you should have a loot at the main.py file and edit the salt value for the hashing function.
+However you should have a look at the main.py file and edit the salt value for the hashing function.
 
 ### GOOGLE APP ENGINE
 To deploy on the GAE you need an account at the [GOOGLE APP ENGINE](https://cloud.google.com/appengine/)
 Head over to the cloud konsole then create a new project.
 
 ***deploy to the cloud***
-use the commandline to switch to the project directory on your harddrive
+use the google sdk shell to switch to the project directory on your harddrive
 You can deploy to the by typing
 ```sh
 gcloud app deploy
 ```
 
 ***test locally***
-use the google app commandline to switch to the project directory on your harddrive
+use the google sdk shell to switch to the project directory on your harddrive
 ```sh
 dev_appserver.py .
 ```
