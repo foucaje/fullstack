@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>readme.md</title><style></style><script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/C333E21D-7513-A24B-8F2E-64E1D53329C4/main.js" charset="UTF-8"></script></head><body id="preview">
+<h1><a id="Tournament_DB_0"></a>Tournament DB</h1>
+<p>Database Excercises for a Swiss Style Tournament<br>
+This version is assuming an even number of players attending the tournament.</p>
+<h3><a id="Prequisites_5"></a>Prequisites</h3>
+<p>In order to run properly you need the following:</p>
+<p><strong><em>Python 2.7x</em></strong> is required to run the included python files.<br>
+If you do not already have python installed you can download and install directly from: <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p>
+<p><strong><em>PostgreSQL DB</em></strong> is used as the database. Please check <a href="https://www.postgresql.org/">https://www.postgresql.org/</a> if you do not already got the Database installed on your system.</p>
+<h3><a id="Configuration_13"></a>Configuration</h3>
+<p>First you need to create a Database and import the <strong>tournament.sql</strong> file to it.<br>
+If your database name is other than <strong>tournament</strong> you will need to modify the code for <strong><a href="http://tournament.py">tournament.py</a></strong><br>
+Search the function and modify the dbname according to what you have created before.</p>
+<pre><code class="language-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">connect</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">"""Connect to the PostgreSQL database.  Returns a database connection."""</span>
+    <span class="hljs-keyword">return</span> psycopg2.connect(<span class="hljs-string">"dbname=tournament"</span>)
+</code></pre>
+<h3><a id="Running_the_app_23"></a>Running the app</h3>
+<p>You can import and use the <a href="http://tournament.py">tournament.py</a> for your project or run the supplied tests by switching to the directory and execute</p>
+<pre><code class="language-sh">python tournament_test.py
+</code></pre>
+<h3><a id="Todo_29"></a>Todo</h3>
+<p>Improve and extend code to support multiple tournaments.<br>
+Implement error / exception handling</p>
+
+</body></html>
