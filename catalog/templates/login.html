@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+				{% if ERROR %}
+				<div class="alert alert-danger" role="alert">{{ERROR}}</div>
+				{% endif %}
+				<div class="col-md-12 text-center">
+				<h2>Please login</h2>
+					<div id="signInButton">
+			          <span class="g-signin"
+			            data-scope="openid email profile"
+			            data-clientid="52825116804-k5aneg4p3k7kgdc2o1q2s28utgem790n.apps.googleusercontent.com"
+			            data-redirecturi="postmessage"
+			            data-accesstype="offline".
+			            data-cookiepolicy="single_host_origin"
+			            data-callback="gCallback"
+			            data-approvalprompt="force">
+			          </span>
+			        </div>
+			        <script>
+              function gCallback(authResult) {
+                if (authResult['code']) {
+                  $.ajax({
+                    type: 'POST',
+                    url: '/gCallback?state={{STATE}}',
+                    processData: false,
+                    data: authResult['code'],
+                    contentType: 'application/octet-stream; charset=utf-8',
+                    success: function(result) {
+                      if (result) {
+                        setTimeout(function() {
+                        window.location.href = "/catalog";
+                        }, 0);
+                      } else if (authResult['error']) {
+                        console.log('There was an error: ' + authResult['error']);
+                      } else {
+                        console.log('Failed to make a server-side call. Check your configuration and console.');
+                      }
+                    }
+                    
+                  });
+                } 
+              }
+              </script>
+            </div>
+{% endblock %}

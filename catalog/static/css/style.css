@@ -1,0 +1,20 @@
+body {
+	font-family: "Raleway", sans-serif;
+	font-weight: 300;
+	padding-top: 50px;
+}
+
+footer {
+	color: #ccc;
+	background-color: #222;
+	padding-top: 25px;
+	padding-bottom: 10px;
+}
+
+footer a {
+	color: #3cb5d0;
+}
+
+.error {
+	color: #f00;
+}

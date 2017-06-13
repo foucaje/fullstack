@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% set active_page = "item" %}
+{% block content %}
+			{% if success %}
+			<div class="alert alert-success" role="alert">{{success}}!</div>
+			{% endif %}
+
+			{% if active_category %}
+			
+			<div class="col-md-3">
+				<div class="list-group">	
+				{% for category in categories %}
+					{% if active_category == category %}
+						<a href="/catalog/{{category.Name}}" class="list-group-item active">{{category.Name}}</a>
+						{% else %}
+						<a href="/catalog/{{category.Name}}" class="list-group-item list-group-item-action">{{category.Name}}</a>
+					{% endif %}
+				{% endfor %}
+				</div>
+			</div>
+			<div class="col-md-9">
+				<table class="table table-hover">
+				<thead><tr><th>{{item.Name}}</th></tr></thead>
+				<tbody>
+					<tr><td>{{item.Description}}</td></tr>
+					<tr><td>
+					{% if user and item.User.Email == user %}
+					<a href="/catalog/{{item.Category.Name}}/{{item.Name}}/edit" class="btn btn-default btn-xs" role="button"><span class="glyphicon glyphicon-pencil"></span> edit</a> - 
+					<a href="/catalog/{{item.Category.Name}}/{{item.Name}}/delete" class="btn btn-default btn-xs" role="button"><span class="glyphicon glyphicon-trash"></span> delete</a>
+					{% endif %}</td></tr>
+				</tbody>
+				</table>
+			</div>
+
+			{% endif %}
+{% endblock %}

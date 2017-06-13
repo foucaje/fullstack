@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+				{% if ERROR %}
+				<div class="alert alert-danger" role="alert">{{ERROR}}</div>
+				{% endif %}
+					<form class="form-horizontal" method="post">
+						<fieldset>
+							<legend>New Category</legend>
+							<div class="form-group">
+							  <label class="col-md-10 col-md-offset-1" for="textinput">Category Name:</label>  
+							  <div class="col-md-10 col-md-offset-1">
+							  	<input name="name" type="text" placeholder="" class="form-control input-md" required value="{{name}}">
+							  </div>
+							</div>
+							<div class="form-group">
+							  <div class="col-md-10 col-md-offset-1 text-center">
+							    <button type="submit" class="btn btn-default">Post</button>
+							  </div>
+							</div>
+						</fieldset>
+					</form>
+{% endblock %}

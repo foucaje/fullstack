@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% set active_page = "catalog" %}
+{% block content %}
+			{% if success %}
+			<div class="alert alert-success" role="alert">{{success}}!</div>
+			{% endif %}
+
+			{% if active_category %}
+			
+			<div class="col-md-3">
+				<div class="list-group">	
+				{% for category in categories %}
+					{% if active_category == category %}
+						<a href="/catalog/{{category.Name}}" class="list-group-item active">{{category.Name}}</a>
+						{% else %}
+						<a href="/catalog/{{category.Name}}" class="list-group-item list-group-item-action">{{category.Name}}</a>
+					{% endif %}
+				{% endfor %}
+				</div>
+			</div>
+			<div class="col-md-9">
+				<table class="table table-hover">
+				<thead><tr><th>Items for {{active_category.Name}}</th></tr></thead>
+				<tbody>
+				{% for item in items %}
+					<tr><td><a href="/catalog/{{active_category.Name}}/{{item.Name}}">{{item.Name}}</a></td></tr>
+				{% endfor %}
+				{% if user %}
+				<tr><td><a href="/catalog/{{active_category.Name}}/add" class="btn btn-default btn-xs"><span class="glyphicon glyphicon glyphicon-file"></span> New Item</a></td></tr>
+				{% endif %}
+				</tbody>
+				</table>
+			</div>
+
+			{% else %}
+
+			<div class="col-md-3">
+				<div class="list-group">	
+				{% for category in categories %}
+				<a href="/catalog/{{category.Name}}" class="list-group-item list-group-item-action">{{category.Name}}</a>
+				{% endfor %}
+				</div>
+			</div>
+
+			<div class="col-md-9">
+				<table class="table table-hover">
+				<thead><tr><th>Latest Items!</th></tr></thead>
+				<tbody>
+				{% for item in latestItems %}
+					<tr><td><a href="/catalog/{{item.Category.Name}}/{{item.Name}}">{{item.Name}}</a></td></tr>
+				{% endfor %}
+				</tbody>
+				</table>
+			</div>
+
+			{% endif %}
+{% endblock %}

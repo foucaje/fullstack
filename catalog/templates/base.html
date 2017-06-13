@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>My Item Catalog</title>
+		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://apis.google.com/js/platform.js?onload=start"></script>
+		<script src="/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		  <div class="container">
+		  		<div class="navbar-header">
+      				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>                        
+				    </button>
+      				<a class="navbar-brand" href="/">ax:<strong>Catalog</strong></a>
+    			</div>
+    			<div class="collapse navbar-collapse" id="myNavbar">
+				  	
+				  	{% if user %}
+				  	<ul class="nav navbar-nav">
+					  <li><a href="/"><span class="glyphicon glyphicon glyphicon-home"></span> Home</a></li>
+					  <li><a href="/category/add"><span class="glyphicon glyphicon-list-alt"></span> New Category</a></li>
+				  	</ul>
+				  	<ul class="nav navbar-nav navbar-right">
+						<li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					</ul>
+					<p class="nav navbar-text navbar-right">Logged in as {{user}}</p>
+					{% else %}
+					<ul class="nav navbar-nav navbar-right">
+					  <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				  	</ul>
+				  	<p class="nav navbar-text navbar-right">Not logged in.</p>
+				  	{% endif %}
+				</div>
+		  </div>
+		</nav>
+		<div class="container">
+			<div class="row">
+			<br>
+				{% block content %}
+				{% endblock %}
+			</div>
+		</div>
+		<footer class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<p>© 2017 aeonex by <a href="mailto:jerome@aeonex.com">jerome foucauld</a>.
+					<br>All Rights Reserved.</p>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
